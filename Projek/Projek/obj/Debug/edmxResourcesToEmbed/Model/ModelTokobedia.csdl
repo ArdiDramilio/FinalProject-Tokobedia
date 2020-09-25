@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TokobediaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DetailTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="TransactionID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MsProduct" Relationship="Self.FK__DetailTra__Produ__31EC6D26" FromRole="DetailTransaction" ToRole="MsProducts" />
+    <NavigationProperty Name="HeaderTransaction" Relationship="Self.FK__DetailTra__Trans__30F848ED" FromRole="DetailTransaction" ToRole="HeaderTransaction" />
+  </EntityType>
+  <EntityType Name="HeaderTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PaymentTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="DetailTransactions" Relationship="Self.FK__DetailTra__Trans__30F848ED" FromRole="HeaderTransaction" ToRole="DetailTransaction" />
+    <NavigationProperty Name="MsPaymentType" Relationship="Self.FK__HeaderTra__Payme__33D4B598" FromRole="HeaderTransaction" ToRole="MsPaymentTypes" />
+    <NavigationProperty Name="MsUser" Relationship="Self.FK__HeaderTra__UserI__32E0915F" FromRole="HeaderTransaction" ToRole="MsUsers" />
+  </EntityType>
+  <EntityType Name="MsCart">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MsProduct" Relationship="Self.FK__MsCarts__Product__35BCFE0A" FromRole="MsCarts" ToRole="MsProducts" />
+    <NavigationProperty Name="MsUser" Relationship="Self.FK__MsCarts__UserID__34C8D9D1" FromRole="MsCarts" ToRole="MsUsers" />
+  </EntityType>
+  <EntityType Name="MsPaymentType">
+    <Key>
+      <PropertyRef Name="PaymentTypeID" />
+    </Key>
+    <Property Name="PaymentTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PaymentTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HeaderTransactions" Relationship="Self.FK__HeaderTra__Payme__33D4B598" FromRole="MsPaymentTypes" ToRole="HeaderTransaction" />
+  </EntityType>
+  <EntityType Name="MsProduct">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductPrice" Type="Int32" Nullable="false" />
+    <Property Name="ProductStock" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DetailTransactions" Relationship="Self.FK__DetailTra__Produ__31EC6D26" FromRole="MsProducts" ToRole="DetailTransaction" />
+    <NavigationProperty Name="MsCarts" Relationship="Self.FK__MsCarts__Product__35BCFE0A" FromRole="MsProducts" ToRole="MsCarts" />
+    <NavigationProperty Name="MsProductType" Relationship="Self.FK__MsProduct__Produ__36B12243" FromRole="MsProducts" ToRole="MsProductTypes" />
+  </EntityType>
+  <EntityType Name="MsProductType">
+    <Key>
+      <PropertyRef Name="ProductTypeID" />
+    </Key>
+    <Property Name="ProductTypeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MsProducts" Relationship="Self.FK__MsProduct__Produ__36B12243" FromRole="MsProductTypes" ToRole="MsProducts" />
+  </EntityType>
+  <EntityType Name="MsRole">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MsUsers" Relationship="Self.FK__MsUsers__RoleID__37A5467C" FromRole="MsRoles" ToRole="MsUsers" />
+  </EntityType>
+  <EntityType Name="MsUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RoleID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserGender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="HeaderTransactions" Relationship="Self.FK__HeaderTra__UserI__32E0915F" FromRole="MsUsers" ToRole="HeaderTransaction" />
+    <NavigationProperty Name="MsCarts" Relationship="Self.FK__MsCarts__UserID__34C8D9D1" FromRole="MsUsers" ToRole="MsCarts" />
+    <NavigationProperty Name="MsRole" Relationship="Self.FK__MsUsers__RoleID__37A5467C" FromRole="MsUsers" ToRole="MsRoles" />
+  </EntityType>
+  <Association Name="FK__DetailTra__Produ__31EC6D26">
+    <End Role="MsProducts" Type="Self.MsProduct" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DetailTransaction" Type="Self.DetailTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsProducts">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="DetailTransaction">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetailTra__Trans__30F848ED">
+    <End Role="HeaderTransaction" Type="Self.HeaderTransaction" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DetailTransaction" Type="Self.DetailTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HeaderTransaction">
+        <PropertyRef Name="TransactionID" />
+      </Principal>
+      <Dependent Role="DetailTransaction">
+        <PropertyRef Name="TransactionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HeaderTra__Payme__33D4B598">
+    <End Role="MsPaymentTypes" Type="Self.MsPaymentType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HeaderTransaction" Type="Self.HeaderTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsPaymentTypes">
+        <PropertyRef Name="PaymentTypeID" />
+      </Principal>
+      <Dependent Role="HeaderTransaction">
+        <PropertyRef Name="PaymentTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HeaderTra__UserI__32E0915F">
+    <End Role="MsUsers" Type="Self.MsUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HeaderTransaction" Type="Self.HeaderTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsUsers">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="HeaderTransaction">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MsCarts__Product__35BCFE0A">
+    <End Role="MsProducts" Type="Self.MsProduct" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MsCarts" Type="Self.MsCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsProducts">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="MsCarts">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MsCarts__UserID__34C8D9D1">
+    <End Role="MsUsers" Type="Self.MsUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MsCarts" Type="Self.MsCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsUsers">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="MsCarts">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MsProduct__Produ__36B12243">
+    <End Role="MsProductTypes" Type="Self.MsProductType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MsProducts" Type="Self.MsProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsProductTypes">
+        <PropertyRef Name="ProductTypeID" />
+      </Principal>
+      <Dependent Role="MsProducts">
+        <PropertyRef Name="ProductTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MsUsers__RoleID__37A5467C">
+    <End Role="MsRoles" Type="Self.MsRole" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MsUsers" Type="Self.MsUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MsRoles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="MsUsers">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TokobediaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DetailTransactions" EntityType="Self.DetailTransaction" />
+    <EntitySet Name="HeaderTransactions" EntityType="Self.HeaderTransaction" />
+    <EntitySet Name="MsCarts" EntityType="Self.MsCart" />
+    <EntitySet Name="MsPaymentTypes" EntityType="Self.MsPaymentType" />
+    <EntitySet Name="MsProducts" EntityType="Self.MsProduct" />
+    <EntitySet Name="MsProductTypes" EntityType="Self.MsProductType" />
+    <EntitySet Name="MsRoles" EntityType="Self.MsRole" />
+    <EntitySet Name="MsUsers" EntityType="Self.MsUser" />
+    <AssociationSet Name="FK__DetailTra__Produ__31EC6D26" Association="Self.FK__DetailTra__Produ__31EC6D26">
+      <End Role="MsProducts" EntitySet="MsProducts" />
+      <End Role="DetailTransaction" EntitySet="DetailTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetailTra__Trans__30F848ED" Association="Self.FK__DetailTra__Trans__30F848ED">
+      <End Role="HeaderTransaction" EntitySet="HeaderTransactions" />
+      <End Role="DetailTransaction" EntitySet="DetailTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HeaderTra__Payme__33D4B598" Association="Self.FK__HeaderTra__Payme__33D4B598">
+      <End Role="MsPaymentTypes" EntitySet="MsPaymentTypes" />
+      <End Role="HeaderTransaction" EntitySet="HeaderTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HeaderTra__UserI__32E0915F" Association="Self.FK__HeaderTra__UserI__32E0915F">
+      <End Role="MsUsers" EntitySet="MsUsers" />
+      <End Role="HeaderTransaction" EntitySet="HeaderTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MsCarts__Product__35BCFE0A" Association="Self.FK__MsCarts__Product__35BCFE0A">
+      <End Role="MsProducts" EntitySet="MsProducts" />
+      <End Role="MsCarts" EntitySet="MsCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MsCarts__UserID__34C8D9D1" Association="Self.FK__MsCarts__UserID__34C8D9D1">
+      <End Role="MsUsers" EntitySet="MsUsers" />
+      <End Role="MsCarts" EntitySet="MsCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MsProduct__Produ__36B12243" Association="Self.FK__MsProduct__Produ__36B12243">
+      <End Role="MsProductTypes" EntitySet="MsProductTypes" />
+      <End Role="MsProducts" EntitySet="MsProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MsUsers__RoleID__37A5467C" Association="Self.FK__MsUsers__RoleID__37A5467C">
+      <End Role="MsRoles" EntitySet="MsRoles" />
+      <End Role="MsUsers" EntitySet="MsUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
